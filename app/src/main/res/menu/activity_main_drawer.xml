@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_select_test"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Выбрать тест" />
+        <item
+            android:id="@+id/nav_start_test"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Начать тест" />
+        <item
+            android:id="@+id/nav_load_file"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Загрузить тест из файла" />
+        <item
+            android:id="@+id/nav_preferences"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Настройки теста" />
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Выход" />
+    </group>
+
+    <item android:title="Справка">
+        <menu>
+            <item
+                android:id="@+id/nav_hlp"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Создание теста" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_menu_send"
+                android:title="О программе" />
+        </menu>
+    </item>
+
+</menu>
