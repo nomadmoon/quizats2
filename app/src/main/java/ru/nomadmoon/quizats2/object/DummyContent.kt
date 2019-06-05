@@ -1,6 +1,7 @@
 package ru.nomadmoon.quizats2.`object`
 
 import ru.nomadmoon.quizats2.quizdata
+import ru.nomadmoon.quizats2.quizmetadata
 import ru.nomadmoon.quizats2.quizresult
 import java.util.ArrayList
 import java.util.HashMap
@@ -16,6 +17,8 @@ object MainObject {
     var arrayOfAnswers = ArrayList<quizresult>()
     var arrayOfQuestions: ArrayList<quizdata> = ArrayList()
     var currentQuizDir: String = ""
+    var currentQuizMeta: quizmetadata = quizmetadata("Тест не выбран", "Загрузите тест из файла или выберите тест из уже загруженных. Для вызова меню проведите пальцем с левого края экрана или нажмите кнопку ≡ в левом верхнем углу.")
+
 }
 
 

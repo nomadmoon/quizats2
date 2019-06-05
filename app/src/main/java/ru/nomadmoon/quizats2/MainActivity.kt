@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         settings = getSharedPreferences("quizats", Context.MODE_PRIVATE)
 
         MainObject.currentQuizDir=settings.getString("selected_test", "-1")
+        if (MainObject.currentQuizDir!="-1") MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
 
         var navigation = findViewById<NavigationView>(R.id.nav_view)
         sideMenu = navigation.menu
@@ -87,12 +88,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        //initfrag.initialTV.text="Booooooooo"
 
         val ft = fragMan.beginTransaction()
 
+        //initfrag.initialTV.text="Booooooooo"
+
         ft.replace(R.id.fragmentMy, initfrag)
         ft.commit()
+
 
     }
 
@@ -202,6 +205,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    fun getMetaFromQuiz(quiz_dir: String): quizmetadata
+        {
+            val qzMetaFile = File(filesDir.toString()+"/quizes/"+quiz_dir+"/quiz_metadata.txt")
+
+            return gson.fromJson<quizmetadata>(qzMetaFile.readText(), quizmetadata::class.java)
+
+        }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -212,10 +223,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 for (dir_entry in qzes.list()) {
                     Log.d("Bbbb", dir_entry)
-                    val qzMetaFile = File(filesDir.toString()+"/quizes/"+dir_entry+"/quiz_metadata.txt")
+//                    val qzMetaFile = File(filesDir.toString()+"/quizes/"+dir_entry+"/quiz_metadata.txt")
 
-                    var localMeta = gson.fromJson<quizmetadata>(qzMetaFile.readText(), quizmetadata::class.java)
+  //                  var localMeta = gson.fromJson<quizmetadata>(qzMetaFile.readText(), quizmetadata::class.java)
 
+                    var localMeta = getMetaFromQuiz(dir_entry)
                     DummyContent.addItem(DummyContent.DummyItem(localMeta.name + " ("+dir_entry+")", localMeta.description, dir_entry))
                 }
 
