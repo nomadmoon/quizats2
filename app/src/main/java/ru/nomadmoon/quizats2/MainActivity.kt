@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var resfrag = ResultFragment()
     var fragMan: FragmentManager = fragmentManager
     var qdarr: ArrayList<quizdata> = ArrayList()
-    var qmd = quizmetadata("Тест не выбран", "Загрузите файл с тестом")
+    var qmd = quizmetadata("Тест не выбран", "Загрузите файл с тестом", -1, -1, true)
     val gson = GsonBuilder().setPrettyPrinting().create()
 
     var main_questions: ArrayList<quizdata> = arrayListOf(quizdata(-1, arrayOf("")))
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
  //       if (dirtodel.exists()) dirtodel.deleteRecursively()
 
         val fzip = ZipFile(filesDir.toString().plus("/test.zip"))
-        var zipentries = fzip.entries().iterator()
+//        var zipentries = fzip.entries().iterator()
 
 
         if (fzip.getEntry("quiz_questions.txt")==null) {
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var quizMetaFile = fzip.getInputStream(fzip.getEntry("quiz_metadata.txt"))
         var quizMetaJSON = quizMetaFile.bufferedReader().readText()
 
-        var quizMetaTest =  quizmetadata("Тест не выбран", "Загрузите файл с тестом")
+        var quizMetaTest =  quizmetadata("Тест не выбран", "Загрузите файл с тестом", -1, -1, true)
 
         try {
             quizMetaTest = gson.fromJson(quizMetaJSON, quizmetadata::class.java)
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-         zipentries = fzip.entries().iterator()
+        var zipentries = fzip.entries().iterator()
 
         val quizesCount = File(filesDir.toString()+"/counter.txt")
         var cc = quizesCount.readText().toInt()
@@ -164,7 +164,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         quizesCount.writeText(cc.toString())
 
         val quizesDirCC = File(filesDir.toString()+"/quizes/"+cc)
-
 
         if (!quizesDirCC.exists()) quizesDirCC.mkdir()
 
@@ -174,6 +173,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fzip.getInputStream(iii).copyTo(outfile)
             // Log.d("Aaaaa", iii.name)
         }
+
+
+
 
         File(filesDir.toString()+"/test.zip").delete()
 
@@ -264,11 +266,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivityForResult(intent, 10510)
 
             }
-            R.id.nav_preferences -> {
+            R.id.nav_test_settings -> {
+
+            }
+            R.id.nav_app_settings -> {
 
             }
             R.id.nav_exit -> {
-
+                initfrag.refreshFragment()
             }
             R.id.nav_hlp -> {
 
@@ -286,9 +291,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         val selected_test = settings.getString("selected_test", "-1")
         sideMenu.findItem(R.id.nav_start_test).setEnabled(false)
+        sideMenu.findItem(R.id.nav_test_settings).setEnabled(false)
+
         if (selected_test=="-1") return
 
-        if (File(filesDir.toString()+"/quizes/"+selected_test).exists()) sideMenu.findItem(R.id.nav_start_test).setEnabled(true)
+        if (File(filesDir.toString()+"/quizes/"+selected_test).exists())
+        {
+            sideMenu.findItem(R.id.nav_start_test).setEnabled(true)
+            sideMenu.findItem(R.id.nav_test_settings).setEnabled(true)
+
+        }
 
 
     }
@@ -308,13 +320,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (item!=null) {
             settings.edit().putString("selected_test", item.dirId).apply()
+            MainObject.currentQuizDir=item.dirId
             updateStartButton()
         }
 
+        MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
+
         val ft = fragMan.beginTransaction()
 
-        ft.remove(selfrag)
+        ft.replace(R.id.fragmentMy, initfrag)
+
+        //    ft.remove(selfrag)
         ft.commit()
+        //ft.add(initfrag)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -30,6 +30,26 @@ class InitialFragment : Fragment() {
         var inflated = inflater.inflate(R.layout.fragment_initial, container, false)
         initialTV = inflated.findViewById<TextView>(R.id.initialTV)
 
+
+        /////+++++++++++++++++++++
+        refreshFragment()
+        ////-------------
+        return inflated
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        refreshFragment()
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        refreshFragment()
+    }
+
+    fun refreshFragment()
+    {
         var sep = System.getProperty("line.separator")
 
         var initialText: String = "Текущий тест:"
@@ -58,8 +78,7 @@ class InitialFragment : Fragment() {
 
 
         initialTV.text = initialText
-        return inflated
-    }
 
+    }
 
 }

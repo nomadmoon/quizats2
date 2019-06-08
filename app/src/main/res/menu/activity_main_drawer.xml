@@ -13,13 +13,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Начать тест" />
         <item
+            android:id="@+id/nav_test_settings"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Настройки теста" />
+        <item
             android:id="@+id/nav_load_file"
             android:icon="@drawable/ic_menu_camera"
             android:title="Загрузить тест из файла" />
         <item
-            android:id="@+id/nav_preferences"
+            android:id="@+id/nav_app_settings"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Настройки теста" />
+            android:title="Настройки приложения" />
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/ic_menu_slideshow"
