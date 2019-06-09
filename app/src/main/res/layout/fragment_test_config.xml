@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TestConfigFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="Настройки теста"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/cards_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <SeekBar
+        android:id="@+id/testConfigSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp" />
+
+    <Switch
+        android:id="@+id/test_config_intel_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Неправильный ответ повышает вероятность показа этой карточки в дальнейшем" />
+
+</LinearLayout>

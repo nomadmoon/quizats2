@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var quefrag = questionFrag()
     var selfrag = SelectQuizFragment()
     var resfrag = ResultFragment()
+    var confrag = TestConfigFragment()
     var fragMan: FragmentManager = fragmentManager
     var qdarr: ArrayList<quizdata> = ArrayList()
     var qmd = quizmetadata("Тест не выбран", "Загрузите файл с тестом", -1, -1, true)
     val gson = GsonBuilder().setPrettyPrinting().create()
 
-    var main_questions: ArrayList<quizdata> = arrayListOf(quizdata(-1, arrayOf("")))
+    var main_questions: ArrayList<quizdata> = arrayListOf(quizdata(-1, "", arrayOf(""), 0))
     var main_answers: ArrayList<quizresult> = arrayListOf(quizresult(-1,-1))
 
     lateinit var settings: SharedPreferences
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         updateStartButton()
 
 
-        qdarr.add(quizdata(1, arrayOf("Hardcoded Answer 1","Hardcoded Answer 2","Hardcoded Answer 3")))
+        qdarr.add(quizdata(1, "Hardcoded question", arrayOf("Hardcoded Answer 1","Hardcoded Answer 2","Hardcoded Answer 3"), 0))
 
 
 
@@ -148,6 +149,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с метаданными (quiz_metadata.txt)", Snackbar.LENGTH_LONG).show()
         }
 
+        quizMetaTest.total_questions_count=qdarr_test.count()
+        quizMetaTest.questions_show_count=qdarr_test.count()
+        quizMetaTest.use_statistics=true
+
         for (qdarr_item in qdarr_test)
         {
             if (fzip.getEntry(qdarr_item.img_num_id.toString()+".jpg")==null)
@@ -174,8 +179,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // Log.d("Aaaaa", iii.name)
         }
 
-
-
+        val quiz_metadata_txt = File(quizesDirCC.toString()+"/quiz_metadata.txt")
+        quiz_metadata_txt.writeText(gson.toJson(quizMetaTest))
 
         File(filesDir.toString()+"/test.zip").delete()
 
@@ -267,7 +272,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_test_settings -> {
-
+                val ft = fragMan.beginTransaction()
+                ft.replace(R.id.fragmentMy, confrag)
+                ft.commit()
             }
             R.id.nav_app_settings -> {
 
@@ -315,9 +322,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        //Log.d("Cccc", item!!.dirId)
-
         if (item!=null) {
             settings.edit().putString("selected_test", item.dirId).apply()
             MainObject.currentQuizDir=item.dirId

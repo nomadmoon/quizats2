@@ -53,13 +53,12 @@ class InitialFragment : Fragment() {
         var sep = System.getProperty("line.separator")
 
         var initialText: String = "Текущий тест:"
-        initialText+=sep+MainObject.currentQuizMeta.name+sep+sep+MainObject.currentQuizMeta.description+sep
+        initialText+=sep+MainObject.currentQuizMeta.name+sep+sep+MainObject.currentQuizMeta.description+sep+sep+"Число вопросов:"+sep+MainObject.currentQuizMeta.total_questions_count+sep+sep
 
-        initialText+=sep+sep+"Статистика неправильных ответов по данному тесту:"
-        initialText+=sep+"Не собрана"+sep+sep
+
 
         initialText+="Показывать карточек:"+sep
-        var qnum = (activity as MainActivity).settings.getInt("questions_number", 0)
+        var qnum = MainObject.currentQuizMeta.questions_show_count//(activity as MainActivity).settings.getInt("questions_number", 0)
         if (qnum==0) {
             initialText+="не выбрано"+sep
         }
@@ -67,9 +66,9 @@ class InitialFragment : Fragment() {
             initialText+=qnum.toString()+sep
         }
 
-        var intel = (activity as MainActivity).settings.getInt("statistics_enabled", -1)
+        var intel = MainObject.currentQuizMeta.use_statistics//(activity as MainActivity).settings.getInt("statistics_enabled", -1)
         initialText+=sep+"Неправильный ответ:"+sep
-        if (intel==1) {
+        if (intel) {
             initialText+="Повышает вероятность показа этой карточки в дальнейшем"
         }
         else {

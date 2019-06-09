@@ -50,7 +50,7 @@ class ResultFragment : Fragment() {
             if (answr.answer==answr.right_answer) rightAnwrsCount++
         }
 
-        resultText="Количество правильных ответов: "+rightAnwrsCount
+        resultText="Количество правильных ответов: "+rightAnwrsCount+" из "+MainObject.currentQuizMeta.questions_show_count
 
     }
 

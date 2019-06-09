@@ -13,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import ru.nomadmoon.quizats2.`object`.MainObject
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -71,12 +73,14 @@ class questionFrag : Fragment(), View.OnClickListener {
     }
 
 
-    var innerquizdata: ArrayList<quizdata> = arrayListOf(quizdata(0, arrayOf("a1", "a2", "a3")))
-    var currentquizdata: quizdata = quizdata(0, arrayOf("a1", "a2", "a3"))
+    var innerquizdata: ArrayList<quizdata> = arrayListOf(quizdata(0, "q1", arrayOf("a1", "a2", "a3"), 0))
+    var currentquizdata: quizdata = quizdata(0, "q1", arrayOf("a1", "a2", "a3"),0)
     var currentquiznumber: Int = -1
     var quiznumlist: ArrayList<Int> = arrayListOf(0)
     lateinit var quizLayout: LinearLayout
     lateinit var quizImage: ImageView
+    lateinit var quizText: TextView
+
     lateinit var quizButton1: Button
     lateinit var quizButton2: Button
     lateinit var quizButton3: Button
@@ -96,13 +100,20 @@ class questionFrag : Fragment(), View.OnClickListener {
             }
         else
             {
-               Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
+                MainObject.arrayOfQuestions[currentquiznumber].fails++
+                Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
             }
 
         Log.d("Zzzz befo", quiznumlist.toString())
         when (quiznumlist.count()) {
             0->{
                 val act = activity as MainActivity
+
+                if (MainObject.currentQuizMeta.use_statistics) {
+                    val qzFile = File(act.filesDir.toString() + "/quizes/" + MainObject.currentQuizDir + "/quiz_questions.txt")
+                    qzFile.writeText(act.gson.toJson(MainObject.arrayOfQuestions))
+                }
+
                 act.showResultFragment()
                 return
             }
@@ -152,7 +163,7 @@ class questionFrag : Fragment(), View.OnClickListener {
         var dm = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(dm)
 
-        var butHeight = dm.heightPixels/8
+        var butHeight = dm.heightPixels/9
 
 
         quizLayout = LinearLayout(activity)
@@ -168,6 +179,10 @@ class questionFrag : Fragment(), View.OnClickListener {
         quizImage.layoutParams = imgParams
         quizImage.setImageBitmap(BitmapFactory.decodeFile(context.filesDir.toString()+"/ping.jpg"))
 
+        quizText = TextView(activity)
+        var textParams  = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, butHeight)
+        quizText.layoutParams = textParams
+        quizText.text=""
 
         var butParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, butHeight)
 
@@ -185,6 +200,8 @@ class questionFrag : Fragment(), View.OnClickListener {
 
 
         quizLayout.addView(quizImage)
+        quizLayout.addView(quizText)
+
         quizLayout.addView(quizButton1)
         quizLayout.addView(quizButton2)
         quizLayout.addView(quizButton3)
@@ -200,6 +217,7 @@ class questionFrag : Fragment(), View.OnClickListener {
         currentquiznumber = quiznumlist[rint]-1
 
         quizImage.setImageBitmap(BitmapFactory.decodeFile(context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+currentquizdata.img_num_id+".jpg"))
+        quizText.text=currentquizdata.question
 
         for (z in 0..2) {
             if (currentquizdata.answers[z].substring(0,3)=="QQQ")

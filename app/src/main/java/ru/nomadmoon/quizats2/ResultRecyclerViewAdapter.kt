@@ -17,8 +17,11 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
         holder.rightAnsw.text=MainObject.arrayOfQuestions[position].answers[MainObject.arrayOfAnswers[position].right_answer]
         holder.userAnsw.text=MainObject.arrayOfQuestions[position].answers[MainObject.arrayOfAnswers[position].answer]
 
-        holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(position+1)+".jpg"))
+        holder.rightAnsw.text="Правильный ответ:\n"+holder.rightAnsw.text.removePrefix("QQQ")
+        holder.userAnsw.text="Ваш ответ:\n"+holder.userAnsw.text.removePrefix("QQQ")
 
+        holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(position+1)+".jpg"))
+        holder.resQuestion.text=MainObject.arrayOfQuestions[position].question
 
         holder.rightAnsw.setBackgroundColor(Color.parseColor("#00AA00"))
 
@@ -47,5 +50,6 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
         val rightAnsw = mView.ResultTextViewRightAnswer
         val userAnsw = mView.ResultTextViewAnswer
         val resImg = mView.resultImageView
+        val resQuestion = mView.ResultTextViewQuestion
     }
 }
