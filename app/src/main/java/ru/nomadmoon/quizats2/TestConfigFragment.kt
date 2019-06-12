@@ -25,6 +25,7 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
 
     lateinit var cardsnum: TextView
     lateinit var switch: Switch
+    lateinit var clear_switch: Switch
     lateinit var save_button: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,11 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
         switch = inflated.findViewById(R.id.test_config_intel_switch)
         switch.isChecked=MainObject.currentQuizMeta.use_statistics
         switch.setOnCheckedChangeListener(this)
+
+        clear_switch = inflated.findViewById(R.id.test_config_intel_switch)
+        clear_switch.isChecked=false
+        clear_switch.setOnCheckedChangeListener(this)
+
 
         save_button = inflated.findViewById(R.id.test_config_save_button)
         save_button.setOnClickListener(activity as View.OnClickListener)
@@ -74,7 +80,15 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
 
     override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        MainObject.currentQuizMeta.use_statistics=p1
+        if (p0!=null) {
+            if (p0.id == R.id.test_config_intel_switch) {
+                MainObject.currentQuizMeta.use_statistics = p1
+            }
+            if (p0.id == R.id.test_config_clearstat_switch) {
+                MainObject.clearTestStat = p1
+            }
+        }
+
         Log.d("Booooooo", MainObject.currentQuizMeta.use_statistics.toString())
     }
 

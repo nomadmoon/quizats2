@@ -30,6 +30,14 @@
         android:layout_marginTop="20dp"
         android:text="Неправильный ответ повышает вероятность показа этой карточки в дальнейшем" />
 
+    <Switch
+        android:id="@+id/test_config_clearstat_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Сбросить статистику успешности" />
+
     <Button
         android:id="@+id/test_config_save_button"
         android:layout_width="match_parent"

@@ -97,11 +97,12 @@ class questionFrag : Fragment(), View.OnClickListener {
 
         if (p0.tag==rightAnswer)
             {
+                if (MainObject.arrayOfQuestions[currentquiznumber].fails>1) MainObject.arrayOfQuestions[currentquiznumber].fails--
                   Snackbar.make(view, "Правильный ответ", Snackbar.LENGTH_LONG).show()
             }
         else
             {
-                MainObject.arrayOfQuestions[currentquiznumber].fails++
+                if (MainObject.arrayOfQuestions[currentquiznumber].fails<90) MainObject.arrayOfQuestions[currentquiznumber].fails++
                 Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
             }
 

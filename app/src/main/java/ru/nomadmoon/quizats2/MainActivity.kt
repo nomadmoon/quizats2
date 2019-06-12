@@ -366,6 +366,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (p0.id) {
             R.id.test_config_save_button->{
                 dumpMetaToQuiz()
+
+                if (MainObject.clearTestStat) {
+                    MainObject.arrayOfQuestions.forEach {
+                        it.fails = 1
+                    }
+
+                    val qzFile = File(filesDir.toString() + "/quizes/" + MainObject.currentQuizDir + "/quiz_questions.txt")
+                    qzFile.writeText(gson.toJson(MainObject.arrayOfQuestions))
+                    MainObject.clearTestStat=false
+                }
+
                 val ft = fragMan.beginTransaction()
                 ft.replace(R.id.fragmentMy, initfrag)
                 ft.commit()
