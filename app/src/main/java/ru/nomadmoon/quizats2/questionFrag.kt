@@ -137,6 +137,17 @@ class questionFrag : Fragment(), View.OnClickListener {
                 Log.d("Zzzz localQuestionsCount", localQuestionsCount.toString())
 
                 rint = Random().nextInt(quiznumlist.count() - 1)
+
+                if (MainObject.currentQuizMeta.use_statistics) {
+                    var rand100 = (Random().nextInt(118))-20
+
+                    while (rand100 > MainObject.arrayOfQuestions[rint].fails) {
+                        rint = Random().nextInt(quiznumlist.count() - 1)
+                        rand100 = (Random().nextInt(118))-20
+                        Log.d("Zzzz rolling", rint.toString())
+                    }
+                }
+
                 localQuestionsCount--
             }
         }
