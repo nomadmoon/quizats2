@@ -14,14 +14,15 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.rightAnsw.text=MainObject.arrayOfQuestions[position].answers[MainObject.arrayOfAnswers[position].right_answer]
-        holder.userAnsw.text=MainObject.arrayOfQuestions[position].answers[MainObject.arrayOfAnswers[position].answer]
+        val q_num = MainObject.arrayOfAnswers[position].quest_number
+        holder.rightAnsw.text=MainObject.arrayOfQuestions[q_num].answers[MainObject.arrayOfAnswers[position].right_answer]
+        holder.userAnsw.text=MainObject.arrayOfQuestions[q_num].answers[MainObject.arrayOfAnswers[position].answer]
 
         holder.rightAnsw.text="Правильный ответ:\n"+holder.rightAnsw.text.removePrefix("QQQ")
         holder.userAnsw.text="Ваш ответ:\n"+holder.userAnsw.text.removePrefix("QQQ")
 
-        holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(position+1)+".jpg"))
-        holder.resQuestion.text=MainObject.arrayOfQuestions[position].question
+        holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(q_num+1)+".jpg"))
+        holder.resQuestion.text=MainObject.arrayOfQuestions[q_num].question
 
         holder.rightAnsw.setBackgroundColor(Color.parseColor("#00AA00"))
 

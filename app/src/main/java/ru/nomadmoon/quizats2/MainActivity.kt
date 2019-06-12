@@ -21,12 +21,17 @@ import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+//import android.widget.Toolbar
+import android.support.v7.widget.Toolbar
+import android.view.View
 import ru.nomadmoon.quizats2.`object`.DummyContent
 import ru.nomadmoon.quizats2.`object`.MainObject
 import java.io.FileOutputStream
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SelectQuizFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SelectQuizFragment.OnListFragmentInteractionListener, View.OnClickListener {
+
+
 
     var initfrag = InitialFragment()
     var quefrag = questionFrag()
@@ -39,17 +44,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val gson = GsonBuilder().setPrettyPrinting().create()
 
     var main_questions: ArrayList<quizdata> = arrayListOf(quizdata(-1, "", arrayOf(""), 0))
-    var main_answers: ArrayList<quizresult> = arrayListOf(quizresult(-1,-1))
+    var main_answers: ArrayList<quizresult> = arrayListOf(quizresult(-1,-1, -1))
 
     lateinit var settings: SharedPreferences
     lateinit var sideMenu: Menu
+    lateinit var maintoolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-
+        maintoolbar=findViewById(R.id.toolbar)
 
         settings = getSharedPreferences("quizats", Context.MODE_PRIVATE)
 
@@ -220,6 +225,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
+    fun dumpMetaToQuiz()
+    {
+        val qzMetaFile = File(filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/quiz_metadata.txt")
+        qzMetaFile.writeText(gson.toJson(MainObject.currentQuizMeta))
+
+        //return gson.fromJson<quizmetadata>(, quizmetadata::class.java)
+        return
+
+    }
+
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -273,6 +289,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_test_settings -> {
                 val ft = fragMan.beginTransaction()
+                maintoolbar.title="Настройки теста"
                 ft.replace(R.id.fragmentMy, confrag)
                 ft.commit()
             }
@@ -280,7 +297,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_exit -> {
-                initfrag.refreshFragment()
+                //initfrag.refreshFragment()
+               // val ft = fragMan.beginTransaction()
+                //ft.replace(R.id.fragmentMy, initfrag)
+               // ft.remove(confrag)
+
+
             }
             R.id.nav_hlp -> {
 
@@ -338,6 +360,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ft.commit()
         //ft.add(initfrag)
     }
+
+    override fun onClick(p0: View) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when (p0.id) {
+            R.id.test_config_save_button->{
+                dumpMetaToQuiz()
+                val ft = fragMan.beginTransaction()
+                ft.replace(R.id.fragmentMy, initfrag)
+                ft.commit()
+            }
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

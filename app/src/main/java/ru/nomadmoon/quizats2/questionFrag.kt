@@ -33,7 +33,7 @@ class questionFrag : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         quizButtons.clear()
-        arrayOfAnswers.clear()
+        //arrayOfAnswers.clear()
 
 
         quiznumlist.clear()
@@ -86,12 +86,13 @@ class questionFrag : Fragment(), View.OnClickListener {
     lateinit var quizButton3: Button
     var rint = 0
     var rightAnswer = -1
+    var localQuestionsCount: Int = 0
 
     var quizButtons: ArrayList<Button> = ArrayList()
-    var arrayOfAnswers = ArrayList<quizresult>()
+   // var arrayOfAnswers = ArrayList<quizresult>()
 
     override fun onClick(p0: View) {
-        arrayOfAnswers[currentquiznumber].answer=p0.tag as Int
+       // arrayOfAnswers[currentquiznumber].answer=p0.tag as Int
         MainObject.arrayOfAnswers[currentquiznumber].answer=p0.tag as Int
 
         if (p0.tag==rightAnswer)
@@ -105,26 +106,38 @@ class questionFrag : Fragment(), View.OnClickListener {
             }
 
         Log.d("Zzzz befo", quiznumlist.toString())
-        when (quiznumlist.count()) {
+        //when (quiznumlist.count()) {
+        when (localQuestionsCount) {
             0->{
                 val act = activity as MainActivity
+
+                Log.d("Zzzz localQuestionsCount 0", "Zzzz localQuestionsCount 0")
 
                 if (MainObject.currentQuizMeta.use_statistics) {
                     val qzFile = File(act.filesDir.toString() + "/quizes/" + MainObject.currentQuizDir + "/quiz_questions.txt")
                     qzFile.writeText(act.gson.toJson(MainObject.arrayOfQuestions))
                 }
 
+                MainObject.arrayOfAnswers.removeIf{it.answer==-1}
+
+
                 act.showResultFragment()
                 return
             }
             1-> {
                 rint=0
+                Log.d("Zzzz localQuestionsCount 1", "Zzzz localQuestionsCount 1")
+                localQuestionsCount--
+
             }
 
             else -> {
 
                 Log.d("Zzzz aft", quiznumlist.toString())
+                Log.d("Zzzz localQuestionsCount", localQuestionsCount.toString())
+
                 rint = Random().nextInt(quiznumlist.count() - 1)
+                localQuestionsCount--
             }
         }
 
@@ -151,13 +164,13 @@ class questionFrag : Fragment(), View.OnClickListener {
 
         for (i in 1..MainObject.arrayOfQuestions.count()) {
             quiznumlist.add(i)
-            arrayOfAnswers.add(quizresult(-1,-1))
-            MainObject.arrayOfAnswers.add(quizresult(-1,-1))
+            //arrayOfAnswers.add(quizresult(-1,-1))
+            MainObject.arrayOfAnswers.add(quizresult(-1,-1, i-1))
         }
 
 
 
-
+        localQuestionsCount = MainObject.currentQuizMeta.questions_show_count-1
 
 
         var dm = DisplayMetrics()
@@ -225,7 +238,7 @@ class questionFrag : Fragment(), View.OnClickListener {
 
                 quizButtons[z].text=currentquizdata.answers[z].drop(3)
                 rightAnswer = z
-                arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
+ //               arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
                 MainObject.arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
             }
             else

@@ -9,28 +9,33 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="Настройки теста"
-        android:textSize="24sp" />
-
-    <TextView
         android:id="@+id/cards_num"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
 
     <SeekBar
         android:id="@+id/testConfigSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:paddingBottom="15dp" />
 
     <Switch
         android:id="@+id/test_config_intel_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:text="Неправильный ответ повышает вероятность показа этой карточки в дальнейшем" />
+
+    <Button
+        android:id="@+id/test_config_save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Сохранить" />
 
 </LinearLayout>

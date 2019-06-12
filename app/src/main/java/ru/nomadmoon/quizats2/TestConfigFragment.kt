@@ -3,12 +3,11 @@ package ru.nomadmoon.quizats2
 
 import android.os.Bundle
 import android.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import ru.nomadmoon.quizats2.`object`.MainObject
 
 
@@ -21,10 +20,12 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
+class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+
 
     lateinit var cardsnum: TextView
     lateinit var switch: Switch
+    lateinit var save_button: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,6 +41,11 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
         switch = inflated.findViewById(R.id.test_config_intel_switch)
         switch.isChecked=MainObject.currentQuizMeta.use_statistics
+        switch.setOnCheckedChangeListener(this)
+
+        save_button = inflated.findViewById(R.id.test_config_save_button)
+        save_button.setOnClickListener(activity as View.OnClickListener)
+
 
 
         return inflated
@@ -57,6 +63,7 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         //
         if (p0 != null) {
                  cardsnum.text = "Показывать карточек: " + (p0.progress + 2)
+                MainObject.currentQuizMeta.questions_show_count=p0.progress + 2
           }
 
     }
@@ -64,4 +71,11 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     override fun onStartTrackingTouch(p0: SeekBar?) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        MainObject.currentQuizMeta.use_statistics=p1
+        Log.d("Booooooo", MainObject.currentQuizMeta.use_statistics.toString())
+    }
+
 }
