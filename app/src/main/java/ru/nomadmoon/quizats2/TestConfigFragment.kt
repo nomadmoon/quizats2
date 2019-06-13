@@ -44,7 +44,7 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
         switch.isChecked=MainObject.currentQuizMeta.use_statistics
         switch.setOnCheckedChangeListener(this)
 
-        clear_switch = inflated.findViewById(R.id.test_config_intel_switch)
+        clear_switch = inflated.findViewById(R.id.test_config_clearstat_switch)
         clear_switch.isChecked=false
         clear_switch.setOnCheckedChangeListener(this)
 

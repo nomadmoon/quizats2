@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quizats</string>
+    <string name="save_button_label">Сохранить</string>
+    <string name="nav_app_settings_title">Настройки приложения</string>
+    <string name="lang_ru">Русский</string>
+</resources>

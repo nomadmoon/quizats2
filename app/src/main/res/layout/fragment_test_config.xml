@@ -44,6 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:text="Сохранить" />
+        android:text="@string/save_button_label" />
 
 </LinearLayout>

@@ -21,16 +21,39 @@ import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.os.LocaleList
 //import android.widget.Toolbar
 import android.support.v7.widget.Toolbar
 import android.view.View
 import ru.nomadmoon.quizats2.`object`.DummyContent
 import ru.nomadmoon.quizats2.`object`.MainObject
 import java.io.FileOutputStream
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SelectQuizFragment.OnListFragmentInteractionListener, View.OnClickListener {
 
+    override fun attachBaseContext(newBase: Context) {
+        val conf = Configuration()
+
+                      val se = newBase.getSharedPreferences("quizats", Context.MODE_PRIVATE)
+                  MainObject.appLang = se.getString("appLang", "en")
+
+        //val quizesCount = File(newBase.filesDir.toString()+"/counter.txt")
+
+
+
+        val locale = Locale(MainObject.appLang)
+        val locList = LocaleList(locale)
+        Locale.setDefault(locale)
+
+        conf.setLocale(locale)
+        conf.locales=locList
+
+        super.attachBaseContext(newBase.createConfigurationContext(conf))
+
+    }
 
 
     var initfrag = InitialFragment()
@@ -38,6 +61,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var selfrag = SelectQuizFragment()
     var resfrag = ResultFragment()
     var confrag = TestConfigFragment()
+    var appconfrag = AppConfigFragment()
+
     var fragMan: FragmentManager = fragmentManager
     var qdarr: ArrayList<quizdata> = ArrayList()
     var qmd = quizmetadata("Тест не выбран", "Загрузите файл с тестом", -1, -1, true)
@@ -57,6 +82,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         maintoolbar=findViewById(R.id.toolbar)
 
         settings = getSharedPreferences("quizats", Context.MODE_PRIVATE)
+
+
+
+        //MainObject.appLang = settings.getString("appLang", "english")
+
+
+       //     }
+       // }
+        Log.d("Zzzz locale", resources.configuration.locales[0].language)
 
         MainObject.currentQuizDir=settings.getString("selected_test", "-1")
         if (MainObject.currentQuizDir!="-1") MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
@@ -295,6 +329,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_app_settings -> {
 
+                val ft = fragMan.beginTransaction()
+                maintoolbar.title=getString(R.string.nav_app_settings_title)
+                ft.replace(R.id.fragmentMy, appconfrag)
+                ft.commit()
+
             }
             R.id.nav_exit -> {
                 //initfrag.refreshFragment()
@@ -363,11 +402,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onClick(p0: View) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("Zzzzz p0.id", p0.id.toString())
+
         when (p0.id) {
             R.id.test_config_save_button->{
                 dumpMetaToQuiz()
 
                 if (MainObject.clearTestStat) {
+
+                    val quizQuestionsJSON = File(filesDir.toString().plus("/quizes/"+ MainObject.currentQuizDir+"/quiz_questions.txt")).readText()
+                    val collectionType = object : TypeToken<ArrayList<quizdata>>() {}.type
+
+
+                    try {
+                        MainObject.arrayOfQuestions = gson.fromJson(quizQuestionsJSON, collectionType)
+                    } catch (e: JsonParseException) {
+                        Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
+                    }
+
+
                     MainObject.arrayOfQuestions.forEach {
                         it.fails = 1
                     }
@@ -381,6 +434,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ft.replace(R.id.fragmentMy, initfrag)
                 ft.commit()
             }
+            R.id.lang_en->MainObject.appLang="en"
+            R.id.lang_ru->MainObject.appLang="ru"
+            R.id.app_config_save_button->settings.edit().putString("appLang", MainObject.appLang).apply()
+
+
         }
     }
 
