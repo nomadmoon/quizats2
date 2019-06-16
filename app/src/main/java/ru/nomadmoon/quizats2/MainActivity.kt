@@ -139,6 +139,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    fun restartApp()
+    {
+        val i: Intent = baseContext.packageManager.getLaunchIntentForPackage(baseContext.packageName)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(i)
+    }
+
     fun loadFromZip()
     {
 
@@ -336,6 +343,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_exit -> {
+                finishAndRemoveTask()
+                //System.exit(0)
                 //initfrag.refreshFragment()
                // val ft = fragMan.beginTransaction()
                 //ft.replace(R.id.fragmentMy, initfrag)
@@ -436,7 +445,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.lang_en->MainObject.appLang="en"
             R.id.lang_ru->MainObject.appLang="ru"
-            R.id.app_config_save_button->settings.edit().putString("appLang", MainObject.appLang).apply()
+            R.id.app_config_save_button->{
+                settings.edit().putString("appLang", MainObject.appLang).apply()
+                restartApp()
+            }
 
 
         }
