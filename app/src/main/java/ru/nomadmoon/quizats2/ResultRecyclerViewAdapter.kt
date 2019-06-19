@@ -21,6 +21,14 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
         holder.rightAnsw.text="Правильный ответ:\n"+holder.rightAnsw.text.removePrefix("QQQ")
         holder.userAnsw.text="Ваш ответ:\n"+holder.userAnsw.text.removePrefix("QQQ")
 
+        if ((MainObject.arrayOfQuestions[q_num].question)=="") {
+            holder.resQuestion.visibility=View.GONE
+        }
+        else
+        {
+            holder.resQuestion.visibility=View.VISIBLE
+        }
+
         holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(q_num+1)+".jpg"))
         holder.resQuestion.text=MainObject.arrayOfQuestions[q_num].question
 

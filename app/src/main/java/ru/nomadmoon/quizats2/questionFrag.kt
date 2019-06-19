@@ -119,7 +119,7 @@ class questionFrag : Fragment(), View.OnClickListener {
                     qzFile.writeText(act.gson.toJson(MainObject.arrayOfQuestions))
                 }
 
-                MainObject.arrayOfAnswers.removeIf{it.answer==-1}
+                MainObject.arrayOfAnswers.removeAll(MainObject.arrayOfAnswers.filter {it.answer==-1})//removeIf{it.answer==-1}
 
 
                 act.showResultFragment()

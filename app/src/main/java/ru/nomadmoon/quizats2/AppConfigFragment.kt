@@ -33,7 +33,7 @@ class AppConfigFragment : Fragment() {
         val lang_ru = inflated.findViewById<RadioButton>(R.id.lang_ru)
         lang_ru.setOnClickListener(activity as View.OnClickListener)
 
-        when ((activity as MainActivity).settings.getString("appLang", "en")){
+        when ((activity as MainActivity).settings.getString("appLang", "-1")){
             "ru"->lang_ru.isChecked=true
             "en"->lang_en.isChecked=true
         }

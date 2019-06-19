@@ -38,19 +38,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val conf = Configuration()
 
                       val se = newBase.getSharedPreferences("quizats", Context.MODE_PRIVATE)
-                  MainObject.appLang = se.getString("appLang", "en")
+                  MainObject.appLang = se.getString("appLang", "-1")
 
         //val quizesCount = File(newBase.filesDir.toString()+"/counter.txt")
 
 
-
+    if (MainObject.appLang!="-1") {
         val locale = Locale(MainObject.appLang)
-        val locList = LocaleList(locale)
+        //  val locList = LocaleList(locale)
         Locale.setDefault(locale)
 
         conf.setLocale(locale)
-        conf.locales=locList
-
+        // conf.locales=locList
+        }
         super.attachBaseContext(newBase.createConfigurationContext(conf))
 
     }
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
        //     }
        // }
-        Log.d("Zzzz locale", resources.configuration.locales[0].language)
+//        Log.d("Zzzz locale", resources.configuration.locales[0].language)
 
         MainObject.currentQuizDir=settings.getString("selected_test", "-1")
         if (MainObject.currentQuizDir!="-1") MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
@@ -205,6 +205,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             {
                 Snackbar.make(findViewById(R.id.rootView), "Не найден файл "+qdarr_item.img_num_id.toString()+".jpg", Snackbar.LENGTH_LONG).show()
             }
+
+            qdarr_item.fails=1
+
+            if (qdarr_item.question==null) qdarr_item.question=""
         }
 
         var zipentries = fzip.entries().iterator()
@@ -227,6 +231,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val quiz_metadata_txt = File(quizesDirCC.toString()+"/quiz_metadata.txt")
         quiz_metadata_txt.writeText(gson.toJson(quizMetaTest))
+
+
+        val quiz_questions_txt = File(quizesDirCC.toString()+"/quiz_questions.txt")
+        quiz_questions_txt.writeText(gson.toJson(qdarr_test))
 
         File(filesDir.toString()+"/test.zip").delete()
 
@@ -458,7 +466,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            10510 -> if (resultCode === Activity.RESULT_OK) {
+            10510 -> if (resultCode == Activity.RESULT_OK) {
                 //val FilePath = data.getData().path
                 //textView.setText(FilePath)
                 var filetodel = File(filesDir.toString()+"/test.zip")
