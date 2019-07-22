@@ -116,9 +116,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+            confrag.sb.max=MainObject.currentQuizMeta.total_questions_count-2
+            confrag.sb.progress=MainObject.currentQuizMeta.questions_show_count-2
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -290,6 +290,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_select_test -> {
 
+                maintoolbar.title=getString(R.string.nav_select_test)
+
                 DummyContent.clearItems()
                 val qzes = File(filesDir.toString().plus("/quizes/"))
 
@@ -309,6 +311,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ft.commit()
             }
             R.id.nav_start_test -> {
+                maintoolbar.title=""
+
                 val selected_test = settings.getString("selected_test", "-1")
                 if (selected_test=="-1") return false
 
@@ -331,6 +335,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ft.commit()
             }
             R.id.nav_load_file -> {
+                maintoolbar.title=getString(R.string.load_test_from_zip)
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "*/*"
                 startActivityForResult(intent, 10510)
@@ -338,7 +343,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_test_settings -> {
                 val ft = fragMan.beginTransaction()
-                maintoolbar.title="Настройки теста"
+                maintoolbar.title=getString(R.string.nav_test_settings_title)
                 ft.replace(R.id.fragmentMy, confrag)
                 ft.commit()
             }
@@ -408,6 +413,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
 
+        maintoolbar.title=getString(R.string.app_name)
+
         val ft = fragMan.beginTransaction()
 
         ft.replace(R.id.fragmentMy, initfrag)
@@ -447,8 +454,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     MainObject.clearTestStat=false
                 }
 
+                maintoolbar.title=getString(R.string.app_name)
                 val ft = fragMan.beginTransaction()
                 ft.replace(R.id.fragmentMy, initfrag)
+                //ft.detach(confrag)
                 ft.commit()
             }
             R.id.lang_en->MainObject.appLang="en"

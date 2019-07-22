@@ -52,12 +52,12 @@ class InitialFragment : Fragment() {
     {
         var sep = System.getProperty("line.separator")
 
-        var initialText: String = "Текущий тест:"
-        initialText+=sep+MainObject.currentQuizMeta.name+sep+sep+MainObject.currentQuizMeta.description+sep+sep+"Число вопросов:"+sep+MainObject.currentQuizMeta.total_questions_count+sep+sep
+        var initialText: String = resources.getString(R.string.initial_current_test)   //"Текущий тест:"
+        initialText+=sep+MainObject.currentQuizMeta.name+sep+sep+MainObject.currentQuizMeta.description+sep+sep+resources.getString(R.string.initial_questions_in_quiz)+sep+MainObject.currentQuizMeta.total_questions_count+sep+sep
 
 
 
-        initialText+="Показывать карточек:"+sep
+        initialText+=resources.getString(R.string.initial_cards_to_show)+sep
         var qnum = MainObject.currentQuizMeta.questions_show_count//(activity as MainActivity).settings.getInt("questions_number", 0)
         if (qnum==0) {
             initialText+="не выбрано"+sep
@@ -67,12 +67,12 @@ class InitialFragment : Fragment() {
         }
 
         var intel = MainObject.currentQuizMeta.use_statistics//(activity as MainActivity).settings.getInt("statistics_enabled", -1)
-        initialText+=sep+"Неправильный ответ:"+sep
+        initialText+=sep+resources.getString(R.string.initial_wrong_anwer_selector)+sep
         if (intel) {
-            initialText+="Повышает вероятность показа этой карточки в дальнейшем"
+            initialText+=resources.getString(R.string.initial_wrong_anwer_affects)
         }
         else {
-            initialText+="Не влияет на вероятность показа этой карточки в дальнейшем"
+            initialText+=resources.getString(R.string.initial_wrong_anwer_no_affect)
         }
 
 

@@ -21,36 +21,56 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+    override fun onStart() {
+        super.onStart()
+        Log.d("Zzzzzz", "TestConfigFragment onStart")
+
+        sb.setOnSeekBarChangeListener(this)
+        //sb.invalidate()
+        sb.max=MainObject.currentQuizMeta.total_questions_count-2
+        sb.progress=MainObject.currentQuizMeta.questions_show_count-2
+
+        cardsnum.text=resources.getString(R.string.initial_cards_to_show)+(sb.progress+2)
+
+        intel_switch.isChecked=MainObject.currentQuizMeta.use_statistics
+        intel_switch.setOnCheckedChangeListener(this)
+        intel_switch.text=resources.getString(R.string.initial_wrong_anwer_selector)+" "+resources.getString(R.string.initial_wrong_anwer_affects)
+
+        clear_switch.isChecked=false
+        clear_switch.setOnCheckedChangeListener(this)
+
+        save_button.setOnClickListener(activity as View.OnClickListener)
+    }
+
 
 
     lateinit var cardsnum: TextView
-    lateinit var switch: Switch
+    lateinit var intel_switch: Switch
     lateinit var clear_switch: Switch
     lateinit var save_button: Button
+    lateinit var sb: SeekBar
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        Log.d("Zzzzzz", "TestConfigFragment onCreateView")
+
         var inflated = inflater.inflate(R.layout.fragment_test_config, container, false)
-        var sb = inflated.findViewById<SeekBar>(R.id.testConfigSeekBar)
-            sb.setOnSeekBarChangeListener(this)
-            sb.max=MainObject.currentQuizMeta.total_questions_count-2
-            sb.progress=MainObject.currentQuizMeta.questions_show_count-2
+         sb = inflated.findViewById<SeekBar>(R.id.testConfigSeekBar)
+
+
 
         cardsnum = inflated.findViewById<TextView>(R.id.cards_num)
-        cardsnum.text="Показывать карточек: "+(sb.progress+2)
 
-        switch = inflated.findViewById(R.id.test_config_intel_switch)
-        switch.isChecked=MainObject.currentQuizMeta.use_statistics
-        switch.setOnCheckedChangeListener(this)
+        intel_switch = inflated.findViewById(R.id.test_config_intel_switch)
 
         clear_switch = inflated.findViewById(R.id.test_config_clearstat_switch)
-        clear_switch.isChecked=false
-        clear_switch.setOnCheckedChangeListener(this)
+
 
 
         save_button = inflated.findViewById(R.id.test_config_save_button)
-        save_button.setOnClickListener(activity as View.OnClickListener)
 
 
 
@@ -68,7 +88,7 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
       //  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         //
         if (p0 != null) {
-                 cardsnum.text = "Показывать карточек: " + (p0.progress + 2)
+                 cardsnum.text = resources.getString(R.string.initial_cards_to_show) + (p0.progress + 2)
                 MainObject.currentQuizMeta.questions_show_count=p0.progress + 2
           }
 

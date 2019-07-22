@@ -26,17 +26,17 @@
         android:id="@+id/test_config_intel_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:text="Неправильный ответ повышает вероятность показа этой карточки в дальнейшем" />
+        android:layout_marginBottom="20dp"
+        android:text="@string/initial_wrong_anwer_selector" />
 
     <Switch
         android:id="@+id/test_config_clearstat_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:text="Сбросить статистику успешности" />
+        android:layout_marginBottom="20dp"
+        android:text="@string/test_config_clear_right_answers_stat" />
 
     <Button
         android:id="@+id/test_config_save_button"

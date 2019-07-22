@@ -4,6 +4,7 @@ package ru.nomadmoon.quizats2
 import android.os.Bundle
 import android.app.Fragment
 import android.graphics.BitmapFactory
+import android.opengl.Visibility
 import android.support.design.widget.Snackbar
 import android.util.DisplayMetrics
 import android.util.Log
@@ -241,7 +242,14 @@ class questionFrag : Fragment(), View.OnClickListener {
 
         currentquiznumber = quiznumlist[rint]-1
 
-        quizImage.setImageBitmap(BitmapFactory.decodeFile(context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+currentquizdata.img_num_id+".jpg"))
+        if (File(context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+currentquizdata.img_num_id+".jpg").exists()) {
+            quizImage.visibility=View.VISIBLE
+            quizImage.setImageBitmap(BitmapFactory.decodeFile(context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+currentquizdata.img_num_id+".jpg"))
+        }
+        else
+        {
+            quizImage.visibility=View.GONE
+        }
         quizText.text=currentquizdata.question
 
         for (z in 0..2) {

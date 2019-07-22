@@ -7,39 +7,39 @@
         <item
             android:id="@+id/nav_select_test"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Выбрать тест" />
+            android:title="@string/nav_select_test" />
         <item
             android:id="@+id/nav_start_test"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Начать тест" />
+            android:title="@string/nav_start_test" />
         <item
             android:id="@+id/nav_test_settings"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Настройки теста" />
+            android:title="@string/nav_test_settings_title" />
         <item
             android:id="@+id/nav_load_file"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Загрузить тест из файла" />
+            android:title="@string/load_test_from_zip" />
         <item
             android:id="@+id/nav_app_settings"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Настройки приложения" />
+            android:title="@string/nav_app_settings_title" />
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Выход" />
+            android:title="@string/nav_exit" />
     </group>
 
-    <item android:title="Справка">
+    <item android:title="@string/help">
         <menu>
             <item
                 android:id="@+id/nav_hlp"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Создание теста" />
+                android:title="@string/nav_help" />
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_menu_send"
-                android:title="О программе" />
+                android:title="@string/nav_about" />
         </menu>
     </item>
 

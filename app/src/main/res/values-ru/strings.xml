@@ -4,4 +4,26 @@
     <string name="save_button_label">Сохранить</string>
     <string name="nav_app_settings_title">Настройки приложения</string>
     <string name="lang_ru">Русский</string>
+    <string name="lang_en">Английский</string>
+    <string name="help_create_test">Как создать тест</string>
+    <string name="exit">Выход</string>
+    <string name="nav_test_settings_title">Настройки теста</string>
+    <string name="load_test_from_zip">Загрузить тест из файла</string>
+    <string name="nav_start_test">Начать тест</string>
+    <string name="nav_select_test">Выбрать тест</string>
+    <string name="nav_exit">Выход</string>
+    <string name="initial_current_test">Текущий тест:</string>
+    <string name="initial_questions_in_quiz">Число вопросов в тесте:</string>
+    <string name="initial_cards_to_show">Показывать карточек:</string>
+    <string name="initial_wrong_anwer_selector">Неправильный ответ:</string>
+    <string name="initial_wrong_anwer_affects">Повышает вероятность показа этой карточки в дальнейшем</string>
+    <string name="initial_wrong_anwer_no_affect">Не влияет на вероятность показа этой карточки в дальнейшем</string>
+    <string name="test_config_clear_right_answers_stat">Сбросить статистику правильных ответов</string>
+    <string name="nav_about">О программе</string>
+    <string name="nav_help">Документация</string>
+    <string name="help">Помощь</string>
+    <string name="fragment_app_config_lang">Выберите язык</string>
+    <string name="result_right_answers_count">"Правильных ответов %s из "</string>
+    <string name="result_right_answer">Правильный ответ:</string>
+    <string name="result_your_answer">Ваш ответ:</string>
 </resources>

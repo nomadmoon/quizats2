@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.quizlist_item.view.*
 import kotlinx.android.synthetic.main.result_card_view.view.*
 import ru.nomadmoon.quizats2.`object`.MainObject
 
@@ -18,8 +19,10 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
         holder.rightAnsw.text=MainObject.arrayOfQuestions[q_num].answers[MainObject.arrayOfAnswers[position].right_answer]
         holder.userAnsw.text=MainObject.arrayOfQuestions[q_num].answers[MainObject.arrayOfAnswers[position].answer]
 
-        holder.rightAnsw.text="Правильный ответ:\n"+holder.rightAnsw.text.removePrefix("QQQ")
-        holder.userAnsw.text="Ваш ответ:\n"+holder.userAnsw.text.removePrefix("QQQ")
+        if (holder.itemView!=null) {
+            holder.rightAnsw.text = holder.itemView.context.resources.getString(R.string.result_right_answer) + "\n" + holder.rightAnsw.text.removePrefix("QQQ")
+            holder.userAnsw.text = holder.itemView.context.resources.getString(R.string.result_your_answer) + "\n" + holder.userAnsw.text.removePrefix("QQQ")
+        }
 
         if ((MainObject.arrayOfQuestions[q_num].question)=="") {
             holder.resQuestion.visibility=View.GONE
