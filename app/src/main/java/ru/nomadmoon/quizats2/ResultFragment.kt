@@ -44,14 +44,12 @@ class ResultFragment : Fragment() {
     {
         var rightAnwrsCount = 0
 
-        //for (answr in answers)
+
         for (answr in MainObject.arrayOfAnswers)
         {
             if (answr.answer==answr.right_answer) rightAnwrsCount++
         }
 
-        //resultText="Количество правильных ответов: "+rightAnwrsCount+" из "+MainObject.currentQuizMeta.questions_show_count
-        //resultText="Количество правильных ответов: $rightAnwrsCount из "+MainObject.currentQuizMeta.questions_show_count
         resultText=resources.getString(R.string.result_right_answers_count).format(rightAnwrsCount)+MainObject.currentQuizMeta.questions_show_count
     }
 

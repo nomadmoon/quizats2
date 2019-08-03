@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.quizlist_item.view.*
 import kotlinx.android.synthetic.main.result_card_view.view.*
 import ru.nomadmoon.quizats2.`object`.MainObject
+import java.io.File
 
 class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>() {
 
@@ -32,7 +33,18 @@ class ResultRecyclerViewAdapter():  RecyclerView.Adapter<ResultRecyclerViewAdapt
             holder.resQuestion.visibility=View.VISIBLE
         }
 
-        holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(q_num+1)+".jpg"))
+
+        if (File(holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(q_num+1)+".jpg").exists()) {
+            holder.resImg.visibility=View.VISIBLE
+            holder.resImg.setImageBitmap(BitmapFactory.decodeFile( holder.resImg.context.filesDir.toString()+"/quizes/"+MainObject.currentQuizDir+"/"+(q_num+1)+".jpg"))
+        }
+        else
+        {
+            holder.resImg.visibility=View.GONE
+        }
+
+
+
         holder.resQuestion.text=MainObject.arrayOfQuestions[q_num].question
 
         holder.rightAnsw.setBackgroundColor(Color.parseColor("#00AA00"))

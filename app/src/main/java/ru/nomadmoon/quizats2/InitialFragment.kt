@@ -52,29 +52,44 @@ class InitialFragment : Fragment() {
     {
         var sep = System.getProperty("line.separator")
 
-        var initialText: String = resources.getString(R.string.initial_current_test)   //"Текущий тест:"
-        initialText+=sep+MainObject.currentQuizMeta.name+sep+sep+MainObject.currentQuizMeta.description+sep+sep+resources.getString(R.string.initial_questions_in_quiz)+sep+MainObject.currentQuizMeta.total_questions_count+sep+sep
+        var initialText: String = resources.getString(R.string.initial_current_test)
+        if (MainObject.currentQuizMeta.description=="UiuhUIHiuhihiugTutDUpoKpoKpIUGrwRWYFIUhpio") {
+            initialText += sep + resources.getString(R.string.initial_test_not_loaded) + sep + sep + resources.getString(R.string.initial_test_not_loaded_desc) + sep + sep + resources.getString(R.string.initial_questions_in_quiz) + sep + getString(R.string.initial_test_not_loaded) + sep + sep
+
+
+            initialText += resources.getString(R.string.initial_cards_to_show) + sep
+
+                initialText += getString(R.string.initial_test_not_loaded) + sep
 
 
 
-        initialText+=resources.getString(R.string.initial_cards_to_show)+sep
-        var qnum = MainObject.currentQuizMeta.questions_show_count//(activity as MainActivity).settings.getInt("questions_number", 0)
-        if (qnum==0) {
-            initialText+="не выбрано"+sep
+            initialText += sep + resources.getString(R.string.initial_wrong_anwer_selector) + sep
+
+                initialText += getString(R.string.initial_test_not_loaded)
+
+
         }
         else {
-            initialText+=qnum.toString()+sep
-        }
+            initialText += sep + MainObject.currentQuizMeta.name + sep + sep + MainObject.currentQuizMeta.description + sep + sep + resources.getString(R.string.initial_questions_in_quiz) + sep + MainObject.currentQuizMeta.total_questions_count + sep + sep
 
-        var intel = MainObject.currentQuizMeta.use_statistics//(activity as MainActivity).settings.getInt("statistics_enabled", -1)
-        initialText+=sep+resources.getString(R.string.initial_wrong_anwer_selector)+sep
-        if (intel) {
-            initialText+=resources.getString(R.string.initial_wrong_anwer_affects)
-        }
-        else {
-            initialText+=resources.getString(R.string.initial_wrong_anwer_no_affect)
-        }
 
+
+            initialText += resources.getString(R.string.initial_cards_to_show) + sep
+            var qnum = MainObject.currentQuizMeta.questions_show_count//(activity as MainActivity).settings.getInt("questions_number", 0)
+            if (qnum == 0) {
+                initialText += "не выбрано" + sep
+            } else {
+                initialText += qnum.toString() + sep
+            }
+
+            var intel = MainObject.currentQuizMeta.use_statistics//(activity as MainActivity).settings.getInt("statistics_enabled", -1)
+            initialText += sep + resources.getString(R.string.initial_wrong_anwer_selector) + sep
+            if (intel) {
+                initialText += resources.getString(R.string.initial_wrong_anwer_affects)
+            } else {
+                initialText += resources.getString(R.string.initial_wrong_anwer_no_affect)
+            }
+        }
 
         initialTV.text = initialText
 

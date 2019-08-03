@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.app.Fragment
 import android.graphics.BitmapFactory
 import android.opengl.Visibility
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.Snackbar
 import android.util.DisplayMetrics
 import android.util.Log
@@ -19,6 +20,8 @@ import ru.nomadmoon.quizats2.`object`.MainObject
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
+import android.support.constraint.ConstraintSet
+import android.view.View.generateViewId
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,6 +34,60 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class questionFrag : Fragment(), View.OnClickListener {
+
+    override fun onStart() {
+        super.onStart()
+
+
+        innerquizdata = MainObject.arrayOfQuestions
+        quiznumlist.clear()
+
+        MainObject.arrayOfAnswers.clear()
+
+        for (i in 1..MainObject.arrayOfQuestions.count()) {
+            quiznumlist.add(i)
+            MainObject.arrayOfAnswers.add(quizresult(-1,-1, i-1))
+        }
+
+
+        localQuestionsCount = MainObject.currentQuizMeta.questions_show_count-1
+
+
+        quizButton1.text = "Zzzzzzzz b1 Zzzzzzzz "
+        quizButton1.tag=0
+        quizButton1.setOnClickListener(this)
+
+        quizButtons.add(quizButton1)
+
+
+        quizButton2.text = "Zzzzzzzz b2"
+        quizButton2.tag=1
+        quizButton2.setOnClickListener(this)
+
+        quizButtons.add(quizButton2)
+
+
+
+
+        quizButton3.text = "Zzzzzzzz b3"
+        quizButton3.tag=2
+        quizButton3.setOnClickListener(this)
+
+        quizButtons.add(quizButton3)
+
+
+
+        rint = Random().nextInt(quiznumlist.count())
+        Log.d("Zzzz", rint.toString())
+        Log.d("Zzzz", quiznumlist.toString())
+        displayQuiz()
+        quiznumlist.removeAt(rint)
+
+
+
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         quizButtons.clear()
@@ -41,37 +98,6 @@ class questionFrag : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        quizButton1 = Button(activity)
-        quizButton1.text = "Zzzzzzzz b1 Zzzzzzzz "
-        quizButton1.tag=0
-        quizButton1.setOnClickListener(this)
-
-        quizButtons.add(quizButton1)
-   //     quizButtons[0]=quizButton1
-
-
-
-        quizButton2 = Button(activity)
-        quizButton2.text = "Zzzzzzzz b2"
-        quizButton2.tag=1
-        quizButton2.setOnClickListener(this)
-
-        quizButtons.add(quizButton2)
-    //    quizButtons[1]=quizButton2
-
-
-        quizButton3 = Button(activity)
-        quizButton3.text = "Zzzzzzzz b3"
-        quizButton3.tag=2
-        quizButton3.setOnClickListener(this)
-
-        quizButtons.add(quizButton3)
-    //    quizButtons[2]=quizButton3
-
-    }
 
 
     var innerquizdata: ArrayList<quizdata> = arrayListOf(quizdata(0, "q1", arrayOf("a1", "a2", "a3"), 0))
@@ -79,6 +105,11 @@ class questionFrag : Fragment(), View.OnClickListener {
     var currentquiznumber: Int = -1
     var quiznumlist: ArrayList<Int> = arrayListOf(0)
     lateinit var quizLayout: LinearLayout
+    lateinit var quizConstrLayout: ConstraintLayout
+    lateinit var constraintSet: ConstraintSet
+
+
+
     lateinit var quizImage: ImageView
     lateinit var quizText: TextView
 
@@ -99,12 +130,12 @@ class questionFrag : Fragment(), View.OnClickListener {
         if (p0.tag==rightAnswer)
             {
                 if (MainObject.arrayOfQuestions[currentquiznumber].fails>1) MainObject.arrayOfQuestions[currentquiznumber].fails--
-                  Snackbar.make(view, "Правильный ответ", Snackbar.LENGTH_LONG).show()
+                        //          Snackbar.make(view, "Правильный ответ", Snackbar.LENGTH_LONG).show()
             }
         else
             {
                 if (MainObject.arrayOfQuestions[currentquiznumber].fails<90) MainObject.arrayOfQuestions[currentquiznumber].fails++
-                Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
+               // Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
             }
 
         Log.d("Zzzz befo", quiznumlist.toString())
@@ -168,71 +199,16 @@ class questionFrag : Fragment(), View.OnClickListener {
         Log.d("Zzz", "onCreateView")
 
 
+        var inflated = inflater.inflate(R.layout.fragment_question_v2, container, false)
+        quizImage = inflated.findViewById(R.id.quizImage)
+        quizText = inflated.findViewById(R.id.quizText)
+
+        quizButton1 = inflated.findViewById(R.id.quizButton1)
+        quizButton2 = inflated.findViewById(R.id.quizButton2)
+        quizButton3 = inflated.findViewById(R.id.quizButton3)
 
 
-        innerquizdata = MainObject.arrayOfQuestions
-        quiznumlist.clear()
-
-        MainObject.arrayOfAnswers.clear()
-
-        for (i in 1..MainObject.arrayOfQuestions.count()) {
-            quiznumlist.add(i)
-            //arrayOfAnswers.add(quizresult(-1,-1))
-            MainObject.arrayOfAnswers.add(quizresult(-1,-1, i-1))
-        }
-
-
-
-        localQuestionsCount = MainObject.currentQuizMeta.questions_show_count-1
-
-
-        var dm = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(dm)
-
-        var butHeight = dm.heightPixels/9
-
-
-        quizLayout = LinearLayout(activity)
-        quizLayout.orientation=LinearLayout.VERTICAL
-        var layParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        layParams.topMargin=30
-        quizLayout.layoutParams=layParams
-
-        quizImage = ImageView(activity)
-
-
-        var imgParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, butHeight*3)
-        quizImage.layoutParams = imgParams
-        quizImage.setImageBitmap(BitmapFactory.decodeFile(context.filesDir.toString()+"/ping.jpg"))
-
-        quizText = TextView(activity)
-        var textParams  = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, butHeight)
-        quizText.layoutParams = textParams
-        quizText.text=""
-
-        var butParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, butHeight)
-
-
-
-        quizButton1.layoutParams=butParams
-        quizButton2.layoutParams=butParams
-        quizButton3.layoutParams=butParams
-
-        rint = Random().nextInt(quiznumlist.count())
-        Log.d("Zzzz", rint.toString())
-        Log.d("Zzzz", quiznumlist.toString())
-        displayQuiz()
-        quiznumlist.removeAt(rint)
-
-
-        quizLayout.addView(quizImage)
-        quizLayout.addView(quizText)
-
-        quizLayout.addView(quizButton1)
-        quizLayout.addView(quizButton2)
-        quizLayout.addView(quizButton3)
-
-        return quizLayout
+        return inflated
 
     }
 

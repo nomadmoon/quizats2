@@ -17,7 +17,7 @@ object MainObject {
     var arrayOfAnswers = ArrayList<quizresult>()
     var arrayOfQuestions: ArrayList<quizdata> = ArrayList()
     var currentQuizDir: String = ""
-    var currentQuizMeta: quizmetadata = quizmetadata("Тест не выбран", "Загрузите тест из файла или выберите тест из уже загруженных. Для вызова меню проведите пальцем с левого края экрана или нажмите кнопку ≡ в левом верхнем углу.", -1, -1, true)
+    var currentQuizMeta: quizmetadata = quizmetadata("", "UiuhUIHiuhihiugTutDUpoKpoKpIUGrwRWYFIUhpio", -1, -1, true)
     var clearTestStat: Boolean = false
     var appLang: String="english"
 }

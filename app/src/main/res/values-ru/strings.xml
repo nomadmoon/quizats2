@@ -26,4 +26,6 @@
     <string name="result_right_answers_count">"Правильных ответов %s из "</string>
     <string name="result_right_answer">Правильный ответ:</string>
     <string name="result_your_answer">Ваш ответ:</string>
+    <string name="initial_test_not_loaded_desc">Загрузите тест из файла или выберите тест из уже загруженных. Для вызова меню проведите пальцем с левого края экрана или нажмите кнопку ≡ в левом верхнем углу.</string>
+    <string name="initial_test_not_loaded">Тест не выбран</string>
 </resources>

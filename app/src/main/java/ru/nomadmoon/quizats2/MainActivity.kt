@@ -1,5 +1,6 @@
 package ru.nomadmoon.quizats2
 
+import android.Manifest
 import android.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -23,13 +24,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.LocaleList
+import android.support.constraint.ConstraintSet
 //import android.widget.Toolbar
 import android.support.v7.widget.Toolbar
 import android.view.View
 import ru.nomadmoon.quizats2.`object`.DummyContent
 import ru.nomadmoon.quizats2.`object`.MainObject
 import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.util.*
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SelectQuizFragment.OnListFragmentInteractionListener, View.OnClickListener {
@@ -65,11 +70,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var fragMan: FragmentManager = fragmentManager
     var qdarr: ArrayList<quizdata> = ArrayList()
-    var qmd = quizmetadata("Тест не выбран", "Загрузите файл с тестом", -1, -1, true)
     val gson = GsonBuilder().setPrettyPrinting().create()
 
-    var main_questions: ArrayList<quizdata> = arrayListOf(quizdata(-1, "", arrayOf(""), 0))
-    var main_answers: ArrayList<quizresult> = arrayListOf(quizresult(-1,-1, -1))
 
     lateinit var settings: SharedPreferences
     lateinit var sideMenu: Menu
@@ -84,13 +86,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         settings = getSharedPreferences("quizats", Context.MODE_PRIVATE)
 
 
-
-        //MainObject.appLang = settings.getString("appLang", "english")
-
-
-       //     }
-       // }
-//        Log.d("Zzzz locale", resources.configuration.locales[0].language)
 
         MainObject.currentQuizDir=settings.getString("selected_test", "-1")
         if (MainObject.currentQuizDir!="-1") MainObject.currentQuizMeta=getMetaFromQuiz(MainObject.currentQuizDir)
@@ -116,9 +111,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         fab.setOnClickListener { view ->
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
-            confrag.sb.max=MainObject.currentQuizMeta.total_questions_count-2
-            confrag.sb.progress=MainObject.currentQuizMeta.questions_show_count-2
+            this.requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 200)
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+            //confrag.sb.max=MainObject.currentQuizMeta.total_questions_count-2
+            //confrag.sb.progress=MainObject.currentQuizMeta.questions_show_count-2
+
+
+
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -130,8 +129,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         val ft = fragMan.beginTransaction()
-
-        //initfrag.initialTV.text="Booooooooo"
 
         ft.replace(R.id.fragmentMy, initfrag)
         ft.commit()
@@ -148,15 +145,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun loadFromZip()
     {
-
-
-        // TEMPORARY!!!!
-  //      val dirtodel = File(filesDir.toString().plus("/quizes/1"))
- //       if (dirtodel.exists()) dirtodel.deleteRecursively()
-
         val fzip = ZipFile(filesDir.toString().plus("/test.zip"))
-//        var zipentries = fzip.entries().iterator()
-
 
         if (fzip.getEntry("quiz_questions.txt")==null) {
             Snackbar.make(findViewById(R.id.rootView), "Отсутствует файл с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
@@ -226,7 +215,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             val outfile = File(quizesDirCC.toString()+"/"+iii.name).outputStream()
             fzip.getInputStream(iii).copyTo(outfile)
-            // Log.d("Aaaaa", iii.name)
         }
 
         val quiz_metadata_txt = File(quizesDirCC.toString()+"/quiz_metadata.txt")
@@ -250,21 +238,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
+  //  override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //menuInflater.inflate(R.menu.main, menu)
+  //      return true
+  //  }
+
+   // override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
+  //      when (item.itemId) {
+   //         R.id.action_settings -> return true
+    //        else -> return super.onOptionsItemSelected(item)
+    //    }
+  //  }
 
     fun getMetaFromQuiz(quiz_dir: String): quizmetadata
         {
@@ -481,22 +469,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var filetodel = File(filesDir.toString()+"/test.zip")
                 if (filetodel.exists()) filetodel.delete()
 
-                val inpstr = getContentResolver().openInputStream(data?.data)
+
+
+                val inpstr: InputStream
 
                 try {
-                    val out = FileOutputStream(filesDir.toString()+"/test.zip")
+                    inpstr = getContentResolver().openInputStream(data?.data)
+
+
                     try {
-                        inpstr.copyTo(out)
-                    } finally {
-                        out.close()
-                    }
-                } finally {
-                    inpstr.close()
+                              val out = FileOutputStream(filesDir.toString()+"/test.zip")
+                              try {
+                                 inpstr.copyTo(out)
+                              } finally {
+                                 out.close()
+                             }
+                          } finally {
+                              inpstr.close()
+                           }
+
+                          loadFromZip()
+
                 }
+                catch (e: SecurityException)
+                {
+                    Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
+                }
+            catch (e: IOException)
+            {
+                Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
+                this.requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 200)
+            }
 
-                loadFromZip()
-
-                Snackbar.make(findViewById(R.id.rootView), "RESULT_OK", Snackbar.LENGTH_LONG).show()
+                maintoolbar.title=""
+            //    Snackbar.make(findViewById(R.id.rootView), "RESULT_OK", Snackbar.LENGTH_LONG).show()
             }
         }
     }
