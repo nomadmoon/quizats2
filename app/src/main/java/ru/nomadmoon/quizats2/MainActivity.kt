@@ -147,14 +147,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun loadFromZip()
     {
+
+
         val fzip = ZipFile(filesDir.toString().plus("/test.zip"))
 
         if (fzip.getEntry("quiz_questions.txt")==null) {
-            Snackbar.make(findViewById(R.id.rootView), "Отсутствует файл с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_questions_absent), Snackbar.LENGTH_LONG).show()
             return
         }
         if (fzip.getEntry("quiz_metadata.txt")==null) {
-            Snackbar.make(findViewById(R.id.rootView), "Отсутствует файл с метаданными (quiz_metadata.txt)", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_metadata_absent), Snackbar.LENGTH_LONG).show()
             return
         }
 
@@ -169,7 +171,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         catch (e: JsonParseException)
         {
-            Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_questions_parse_error), Snackbar.LENGTH_LONG).show()
+            return
         }
 
 
@@ -183,7 +186,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         catch (e: JsonParseException)
         {
-            Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с метаданными (quiz_metadata.txt)", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_metadata_parse_error), Snackbar.LENGTH_LONG).show()
+            return
         }
 
         quizMetaTest.total_questions_count=qdarr_test.count()
@@ -194,7 +198,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             if (fzip.getEntry(qdarr_item.img_num_id.toString()+".jpg")==null)
             {
-                Snackbar.make(findViewById(R.id.rootView), "Не найден файл "+qdarr_item.img_num_id.toString()+".jpg", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_file_jpg_not_found).format(qdarr_item.img_num_id.toString()), Snackbar.LENGTH_LONG).show()
+                return
             }
 
             qdarr_item.fails=1
@@ -228,7 +233,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         File(filesDir.toString()+"/test.zip").delete()
 
-        }
+        Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_success), Snackbar.LENGTH_LONG).show()
+
+    }
 
 
 
@@ -313,7 +320,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 try {
                     MainObject.arrayOfQuestions = gson.fromJson(quizQuestionsJSON, collectionType)
                 } catch (e: JsonParseException) {
-                    Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_questions_parse_error), Snackbar.LENGTH_LONG).show()
+                    return false
                 }
 
 
@@ -431,7 +439,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     try {
                         MainObject.arrayOfQuestions = gson.fromJson(quizQuestionsJSON, collectionType)
                     } catch (e: JsonParseException) {
-                        Snackbar.make(findViewById(R.id.rootView), "Ошибка разбора JSON файла с вопросами (quiz_questions.txt)", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_quiz_questions_parse_error), Snackbar.LENGTH_LONG).show()
+                        return
                     }
 
 
@@ -527,7 +536,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         else
         {
-            Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.open_file_no_permissions), Snackbar.LENGTH_LONG).show()
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

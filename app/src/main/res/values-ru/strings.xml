@@ -29,4 +29,10 @@
     <string name="initial_test_not_loaded_desc">Загрузите тест из файла или выберите тест из уже загруженных. Для вызова меню проведите пальцем с левого края экрана или нажмите кнопку ≡ в левом верхнем углу.</string>
     <string name="initial_test_not_loaded">Тест не выбран</string>
     <string name="open_file_no_permissions">Недостаточно прав для открытия файла</string>
+    <string name="load_quiz_questions_absent">Отсутствует файл с вопросами (quiz_questions.txt)</string>
+    <string name="load_quiz_metadata_absent">Отсутствует файл с метаданными (quiz_metadata.txt)</string>
+    <string name="load_quiz_questions_parse_error">Ошибка разбора JSON файла с вопросами (quiz_questions.txt)</string>
+    <string name="load_quiz_metadata_parse_error">Ошибка разбора JSON файла с метаданными (quiz_metadata.txt)</string>
+    <string name="load_file_jpg_not_found">Не найден файл %s.jpg</string>
+    <string name="load_quiz_success">Файл теста загружен успешно</string>
 </resources>

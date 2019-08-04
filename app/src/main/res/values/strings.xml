@@ -45,6 +45,12 @@
     <string name="result_your_answer">Your answer:</string>
     <string name="initial_test_not_loaded_desc">Load test from file or choose from already loaded tests. To open menu swipe from left side of screen or touch ≡ symbol in left top corner of screen.</string>
     <string name="initial_test_not_loaded">Test not selected</string>
-    <string name="open_file_no_permissions">Not enougth permissions to open file</string>
+    <string name="open_file_no_permissions">Not enough permissions to open file</string>
+    <string name="load_quiz_questions_absent">Questions file (quiz_questions.txt) is absent</string>
+    <string name="load_quiz_metadata_absent">Quiz data file (quiz_metadata.txt) is absent</string>
+    <string name="load_quiz_questions_parse_error">Error parsing questions file (quiz_questions.txt)</string>
+    <string name="load_quiz_metadata_parse_error">Error parsing quiz data file (quiz_metadata.txt)</string>
+    <string name="load_file_jpg_not_found">File %s.jpg is absent</string>
+    <string name="load_quiz_success">Quiz files loaded successfully</string>
 
 </resources>
