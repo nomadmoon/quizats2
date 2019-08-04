@@ -1,5 +1,6 @@
 package ru.nomadmoon.quizats2.`object`
 
+import android.content.Intent
 import ru.nomadmoon.quizats2.quizdata
 import ru.nomadmoon.quizats2.quizmetadata
 import ru.nomadmoon.quizats2.quizresult
@@ -20,6 +21,7 @@ object MainObject {
     var currentQuizMeta: quizmetadata = quizmetadata("", "UiuhUIHiuhihiugTutDUpoKpoKpIUGrwRWYFIUhpio", -1, -1, true)
     var clearTestStat: Boolean = false
     var appLang: String="english"
+    var OpenFileDataIntent: Intent = Intent()
 }
 
 

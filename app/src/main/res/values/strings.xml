@@ -45,5 +45,6 @@
     <string name="result_your_answer">Your answer:</string>
     <string name="initial_test_not_loaded_desc">Load test from file or choose from already loaded tests. To open menu swipe from left side of screen or touch ≡ symbol in left top corner of screen.</string>
     <string name="initial_test_not_loaded">Test not selected</string>
+    <string name="open_file_no_permissions">Not enougth permissions to open file</string>
 
 </resources>

@@ -28,4 +28,5 @@
     <string name="result_your_answer">Ваш ответ:</string>
     <string name="initial_test_not_loaded_desc">Загрузите тест из файла или выберите тест из уже загруженных. Для вызова меню проведите пальцем с левого края экрана или нажмите кнопку ≡ в левом верхнем углу.</string>
     <string name="initial_test_not_loaded">Тест не выбран</string>
+    <string name="open_file_no_permissions">Недостаточно прав для открытия файла</string>
 </resources>

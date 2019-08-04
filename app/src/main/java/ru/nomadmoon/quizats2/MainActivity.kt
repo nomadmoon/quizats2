@@ -22,7 +22,9 @@ import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.LocaleList
 import android.support.constraint.ConstraintSet
 //import android.widget.Toolbar
@@ -469,42 +471,66 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var filetodel = File(filesDir.toString()+"/test.zip")
                 if (filetodel.exists()) filetodel.delete()
 
-
-
-                val inpstr: InputStream
-
-                try {
-                    inpstr = getContentResolver().openInputStream(data?.data)
-
-
-                    try {
-                              val out = FileOutputStream(filesDir.toString()+"/test.zip")
-                              try {
-                                 inpstr.copyTo(out)
-                              } finally {
-                                 out.close()
-                             }
-                          } finally {
-                              inpstr.close()
-                           }
-
-                          loadFromZip()
-
+                if (data!=null) {
+                    MainObject.OpenFileDataIntent=data
+                    tryToOpenFile()
                 }
-                catch (e: SecurityException)
-                {
-                    Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
-                }
-            catch (e: IOException)
-            {
-                Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
-                this.requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 200)
-            }
+
+
 
                 maintoolbar.title=""
             //    Snackbar.make(findViewById(R.id.rootView), "RESULT_OK", Snackbar.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun tryToOpenFile()
+    {
+
+        val inpstr: InputStream
+
+        try {
+            inpstr = getContentResolver().openInputStream(MainObject.OpenFileDataIntent.data)
+
+
+            try {
+                val out = FileOutputStream(filesDir.toString()+"/test.zip")
+                try {
+                    inpstr.copyTo(out)
+                } finally {
+                    out.close()
+                }
+            } finally {
+                inpstr.close()
+            }
+
+            loadFromZip()
+
+        }
+        catch (e: SecurityException)
+        {
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.open_file_no_permissions), Snackbar.LENGTH_LONG).show()
+        }
+        catch (e: IOException)
+        {
+            Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.open_file_no_permissions), Snackbar.LENGTH_LONG).show()
+            this.requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 200)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode==200 && grantResults.size==1)
+            {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tryToOpenFile()
+                }
+            }
+        else
+        {
+            Snackbar.make(findViewById(R.id.rootView), "Недостаточно прав для открытия файла", Snackbar.LENGTH_LONG).show()
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
 
