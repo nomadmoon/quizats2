@@ -104,6 +104,9 @@ class questionFrag : Fragment(), View.OnClickListener {
     var currentquizdata: quizdata = quizdata(0, "q1", arrayOf("a1", "a2", "a3"),0)
     var currentquiznumber: Int = -1
     var quiznumlist: ArrayList<Int> = arrayListOf(0)
+
+    var questionitems: MutableList<questionitem> = mutableListOf()
+
     lateinit var quizLayout: LinearLayout
     lateinit var quizConstrLayout: ConstraintLayout
     lateinit var constraintSet: ConstraintSet
@@ -130,12 +133,12 @@ class questionFrag : Fragment(), View.OnClickListener {
         if (p0.tag==rightAnswer)
             {
                 if (MainObject.arrayOfQuestions[currentquiznumber].fails>1) MainObject.arrayOfQuestions[currentquiznumber].fails--
-                        //          Snackbar.make(view, "Правильный ответ", Snackbar.LENGTH_LONG).show()
+                if (MainObject.currentQuizMeta.immediate_show==true)  Snackbar.make(view, "Правильный ответ", Snackbar.LENGTH_SHORT).show()
             }
         else
             {
                 if (MainObject.arrayOfQuestions[currentquiznumber].fails<90) MainObject.arrayOfQuestions[currentquiznumber].fails++
-               // Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_LONG).show()
+                if (MainObject.currentQuizMeta.immediate_show==true)  Snackbar.make(view, "Неправильный ответ", Snackbar.LENGTH_SHORT).show()
             }
 
         Log.d("Zzzz befo", quiznumlist.toString())
@@ -228,21 +231,46 @@ class questionFrag : Fragment(), View.OnClickListener {
         }
         quizText.text=currentquizdata.question
 
+        questionitems.clear()
+
         for (z in 0..2) {
-            if (currentquizdata.answers[z].substring(0,3)=="QQQ")
+            questionitems.add(z, questionitem(z, currentquizdata.answers[z]))
+        }
+
+        if (MainObject.currentQuizMeta.shuffle_answers) questionitems.shuffle()
+
+        for (z in 0..2) {
+            quizButtons[z].tag = questionitems[z].n
+
+            if (questionitems[z].question.length>3 && questionitems[z].question.substring(0,3)=="QQQ")
             {
 
-                quizButtons[z].text=currentquizdata.answers[z].drop(3)
-                rightAnswer = z
- //               arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
-                MainObject.arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
+                quizButtons[z].text=questionitems[z].question.drop(3)
+                rightAnswer = questionitems[z].n
+                MainObject.arrayOfAnswers[quiznumlist[rint]-1].right_answer=questionitems[z].n
             }
             else
             {
-                quizButtons[z].text=currentquizdata.answers[z]
+                quizButtons[z].text=questionitems[z].question
             }
 
         }
+
+
+ //       for (z in 0..2) {
+ //           if (currentquizdata.answers[z].length>3 && currentquizdata.answers[z].substring(0,3)=="QQQ")
+ //           {
+//
+  //              quizButtons[z].text=currentquizdata.answers[z].drop(3)
+    //            rightAnswer = z
+ //               MainObject.arrayOfAnswers[quiznumlist[rint]-1].right_answer=z
+   //         }
+     //       else
+       //     {
+  //              quizButtons[z].text=currentquizdata.answers[z]
+    //        }
+
+      //  }
 
     }
 

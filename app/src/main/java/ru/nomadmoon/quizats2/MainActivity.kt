@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         for (qdarr_item in qdarr_test)
         {
-            if (fzip.getEntry(qdarr_item.img_num_id.toString()+".jpg")==null)
+            if (qdarr_item.img_num_id!=-1 && fzip.getEntry(qdarr_item.img_num_id.toString()+".jpg")==null)
             {
                 Snackbar.make(findViewById(R.id.rootView), resources.getString(R.string.load_file_jpg_not_found).format(qdarr_item.img_num_id.toString()), Snackbar.LENGTH_LONG).show()
                 return

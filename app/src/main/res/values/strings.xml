@@ -52,5 +52,7 @@
     <string name="load_quiz_metadata_parse_error">Error parsing quiz data file (quiz_metadata.txt)</string>
     <string name="load_file_jpg_not_found">File %s.jpg is absent</string>
     <string name="load_quiz_success">Quiz files loaded successfully</string>
+    <string name="test_config_immediately_show">Immediately show wrong answers</string>
+    <string name="test_config_shuffle">Shuffle answers</string>
 
 </resources>

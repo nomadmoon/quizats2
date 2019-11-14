@@ -18,8 +18,10 @@ object MainObject {
     var arrayOfAnswers = ArrayList<quizresult>()
     var arrayOfQuestions: ArrayList<quizdata> = ArrayList()
     var currentQuizDir: String = ""
-    var currentQuizMeta: quizmetadata = quizmetadata("", "UiuhUIHiuhihiugTutDUpoKpoKpIUGrwRWYFIUhpio", -1, -1, true)
+    var currentQuizMeta: quizmetadata = quizmetadata("", "UiuhUIHiuhihiugTutDUpoKpoKpIUGrwRWYFIUhpio", -1, -1, true, false, false)
     var clearTestStat: Boolean = false
+
+
     var appLang: String="english"
     var OpenFileDataIntent: Intent = Intent()
 }

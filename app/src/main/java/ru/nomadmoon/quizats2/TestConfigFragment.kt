@@ -36,6 +36,13 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
         intel_switch.setOnCheckedChangeListener(this)
         intel_switch.text=resources.getString(R.string.initial_wrong_anwer_selector)+" "+resources.getString(R.string.initial_wrong_anwer_affects)
 
+        immediate_switch.isChecked=MainObject.currentQuizMeta.immediate_show
+        immediate_switch.setOnCheckedChangeListener(this)
+
+
+        shuffle_switch.isChecked=MainObject.currentQuizMeta.shuffle_answers
+        shuffle_switch.setOnCheckedChangeListener(this)
+
         clear_switch.isChecked=false
         clear_switch.setOnCheckedChangeListener(this)
 
@@ -47,6 +54,8 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
     lateinit var cardsnum: TextView
     lateinit var intel_switch: Switch
     lateinit var clear_switch: Switch
+    lateinit var immediate_switch: Switch
+    lateinit var shuffle_switch: Switch
     lateinit var save_button: Button
     lateinit var sb: SeekBar
 
@@ -68,6 +77,9 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
 
         clear_switch = inflated.findViewById(R.id.test_config_clearstat_switch)
 
+        immediate_switch = inflated.findViewById(R.id.test_config_immediate_switch)
+
+        shuffle_switch = inflated.findViewById(R.id.test_config_shuffle_switch)
 
 
         save_button = inflated.findViewById(R.id.test_config_save_button)
@@ -106,6 +118,12 @@ class TestConfigFragment : Fragment(), SeekBar.OnSeekBarChangeListener, Compound
             }
             if (p0.id == R.id.test_config_clearstat_switch) {
                 MainObject.clearTestStat = p1
+            }
+            if (p0.id == R.id.test_config_immediate_switch) {
+                MainObject.currentQuizMeta.immediate_show = p1
+            }
+            if (p0.id == R.id.test_config_shuffle_switch) {
+                MainObject.currentQuizMeta.shuffle_answers = p1
             }
         }
 

@@ -35,4 +35,6 @@
     <string name="load_quiz_metadata_parse_error">Ошибка разбора JSON файла с метаданными (quiz_metadata.txt)</string>
     <string name="load_file_jpg_not_found">Не найден файл %s.jpg</string>
     <string name="load_quiz_success">Файл теста загружен успешно</string>
+    <string name="test_config_immediately_show">Сразу показывать неправильные ответы</string>
+    <string name="test_config_shuffle">Перемешивать ответы</string>
 </resources>
